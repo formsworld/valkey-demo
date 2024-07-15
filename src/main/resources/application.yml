@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: tdcache
+
+server:
+  servlet:
+    context-path: /tdcache
