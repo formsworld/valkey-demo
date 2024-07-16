@@ -1,26 +1,29 @@
 package com.td.test.cache.service;
 
 
-import io.jackey.JedisCluster;
-import org.springframework.beans.factory.annotation.Qualifier;
+import io.jackey.Jedis;
+import io.jackey.JedisPool;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CacheService implements ICacheService{
+@RequiredArgsConstructor
+public class CacheService implements ICacheService {
 
-    private final JedisCluster jedisCluster;
 
-    public CacheService(@Qualifier("getJedisCluster") JedisCluster jedisCluster) {
-        this.jedisCluster = jedisCluster;
-    }
+    private final JedisPool jedisPool;
 
     @Override
     public String getValue(String key) {
-        return jedisCluster.get(key);
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.get(key);
+        }
     }
 
     @Override
     public void setValue(String key, String value) {
-        jedisCluster.set(key, value);
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.set(key, value);
+        }
     }
 }

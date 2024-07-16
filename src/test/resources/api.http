@@ -1,0 +1,12 @@
+POST http://localhost:8080/tdcache/cache/create HTTP/1.1
+Content-Type: application/json
+
+{
+  "key": "Name",
+  "value": "Jack Daniel"
+}
+
+### Get calls
+
+GET http://localhost:8080/tdcache/cache/Name HTTP/1.1
+Content-Type: application/json
